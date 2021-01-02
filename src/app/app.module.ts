@@ -7,6 +7,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { LayoutModule } from './layout/layout.module';
+import { AuthModule } from './auth/auth.module';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { LayoutModule } from './layout/layout.module';
     AppRoutingModule,
     NoopAnimationsModule,
     NgbModule,
-    LayoutModule
+    LayoutModule,
+    AuthModule
   ],
   providers: [],
   bootstrap: [AppComponent]
