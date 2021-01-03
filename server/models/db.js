@@ -8,3 +8,4 @@ mongoose.connect(process.env.MONGODB_URI, (error) => {
     }
 });
 
+require('./user.model');
