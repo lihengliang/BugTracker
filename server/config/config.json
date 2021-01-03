@@ -1,7 +1,7 @@
 {
     "development": {
         "PORT": 3000,
-        "MONGODB_URI": "mongodb://localhost:27017/BugTrackerDB"
+        "MONGODB_URI": "mongodb://localhost:27017/bugTrackerDB"
     },
     "production": {
         "PORT": 80,
