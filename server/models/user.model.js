@@ -1,22 +1,50 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
     firstName: {
         type: String,
-        required: true
+        required: "First name is required"
     },
     lastName: {
         type: String,
-        required: true
+        required: "Last name is required"
     },
     email: {
         type: String,
-        required: true
+        required: "Email is required",
+        unique: true
     },
     password: {
         type: String,
-        required: true
-    }
+        required: "Password is required",
+        minlength: [6, 'Password must be between 6-16 characters long'],
+        maxlength: [16, 'Password must be between 6-16 characters long']
+    },
+    date: {
+        type: Date,
+        default: Date.now
+    },
+    salt: {
+        type: String
+    },
 });
+
+// pre event before saving user
+userSchema.pre('save', function (next) {
+    bcrypt.genSalt(10, (error, salt) => {
+        bcrypt.hash(this.password, salt, (error, hash) => {
+            this.password = hash;
+            this.salt = salt;
+            next();
+        });
+    });
+});
+
+// validate fields
+userSchema.path('email').validate((email) => {
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+}, "Invalid email");
 
 mongoose.model('User', userSchema);
