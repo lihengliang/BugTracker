@@ -1,17 +1,55 @@
 const mongoose = require('mongoose');
+const validator = require('validator');
 const User = mongoose.model('User');
 
-module.exports.register = (req, res, next) => {
-    let user = new User();
-    user.firstName = req.body.firstName;
-    user.lastName = req.body.lastName;
-    user.email = req.body.email;
-    user.password = req.body.password;
+module.exports.register = async (req, res, next) => {
+    const { firstName, lastName, email, password1, password2 } = req.body;
+    // validation
+    let errors = [];
+    if (!firstName || !lastName || !email || !password1 || !password2) {
+        errors.push('Please fill in all fields');
+    }
+
+    if (!validator.equals(password1, password2)) {
+        errors.push('passwords do not match (password is case sensitive)')
+    }
+
+    const password = password1;
+
+    if (password.length < 6 || password.length > 16) {
+        errors.push('password must be between 6-16 characters');
+    }
+    
+    if (!validator.isEmail(email)) {
+        errors.push('Please enter a valid email');
+    }
+
+    // check if email is taken or not
+    await User.findOne({ email: email })
+    .then(user => {
+        if (user) {
+            errors.push('Email is already taken');
+        }
+    });
+    
+    if (errors.length > 0) {
+        console.log(errors);
+        return res.status(422).send(errors);
+    }
+
+    // create user
+    const newUser = { firstName, lastName, email, password};
+    let user = new User(newUser);
+
     user.save((error, doc) => {
         if (!error) {
             res.send(doc);
         } else {
-            return next(error);
+            if (error.name === 'ValidationError') {
+                Object.keys(error.errors).forEach(key => errors.push(error.errors[key].message));
+            }
+            console.log(errors);
+            res.status(422).send(errors);
         }
     });
 };
