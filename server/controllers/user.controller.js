@@ -6,22 +6,9 @@ module.exports.register = async (req, res, next) => {
     const { firstName, lastName, email, password1, password2 } = req.body;
     // validation
     let errors = [];
+    
     if (!firstName || !lastName || !email || !password1 || !password2) {
         errors.push('Please fill in all fields');
-    }
-
-    if (!validator.equals(password1, password2)) {
-        errors.push('passwords do not match (password is case sensitive)')
-    }
-
-    const password = password1;
-
-    if (password.length < 6 || password.length > 16) {
-        errors.push('password must be between 6-16 characters');
-    }
-    
-    if (!validator.isEmail(email)) {
-        errors.push('Please enter a valid email');
     }
 
     // check if email is taken or not
@@ -31,7 +18,22 @@ module.exports.register = async (req, res, next) => {
             errors.push('Email is already taken');
         }
     });
+
+    if (!validator.isEmail(email)) {
+        errors.push('Please enter a valid email');
+    }
+
+    if (!validator.equals(password1, password2)) {
+        errors.push('Passwords do not match (password is case sensitive)')
+    }
+
+    const password = password1;
+
+    if (password.length < 6 || password.length > 16) {
+        errors.push('Password must be between 6-16 characters');
+    }
     
+
     if (errors.length > 0) {
         console.log(errors);
         return res.status(422).send(errors);
