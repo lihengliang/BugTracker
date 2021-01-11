@@ -36,17 +36,22 @@ export class RegisterComponent implements OnInit {
           Validators.maxLength(16)
         ],
       ],
-    });
+    }, {validator: this.comparePasswords});
   }
 
   get f() { return this.registerForm.controls; }
 
+  comparePasswords(group: FormGroup) {
+    const pass1 = group.controls.password1.value;
+    const pass2 = group.controls.password2.value;
+
+    return pass1 === pass2 ? null : { mismatch: true };
+  }
+
   onSubmit(): void {
     this.submitted = true;
-    console.log('submitting');
     // stop here if form is invalid
     if (this.registerForm.invalid) {
-      console.log('invalid form');
       return;
     }
 
