@@ -14,4 +14,8 @@ export class UserService {
   postRegister(user: User): Observable<any> {
     return this.http.post(environment.apiUrl + '/register', user);
   }
+
+  postLogin(user: User): Observable<any> {
+    return this.http.post(environment.apiUrl + '/login', user);
+  }
 }
