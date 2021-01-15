@@ -42,7 +42,7 @@
         <div *ngIf="registerForm.errors?.mismatch">Passwords do not match</div>
       </div>
     </div>
-    <div *ngIf="errorMsgs" class="alert alert-danger" role="alert">
+    <div *ngIf="errorMsgs && !userCreated" class="alert alert-danger" role="alert">
       <div *ngFor="let error of errorMsgs">
         {{ error }}
       </div>
