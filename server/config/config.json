@@ -2,11 +2,13 @@
     "development": {
         "PORT": 3000,
         "MONGODB_URI": "mongodb://localhost:27017/bugTrackerDB",
-        "JWT_SECRET": "Fs3@1dFxv!2Sfb"
+        "JWT_SECRET": "Fs3@1dFxv!2Sfb",
+        "JWT_EXP": 172800
     },
     "production": {
         "PORT": 80,
         "MONGODB_URI": "tbd",
-        "JWT_SECRET": "Htwvb57!2#zBv"
+        "JWT_SECRET": "Htwvb57!2#zBv",
+        "JWT_EXP": 172800
     }
 }
