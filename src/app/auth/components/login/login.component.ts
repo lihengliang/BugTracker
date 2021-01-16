@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit {
         this.loginSuccess = true;
       },
       err => {
-        if (err.status === 422) {
+        if (err.status === 401) {
           this.errorMsgs = err.error;
         }
       }

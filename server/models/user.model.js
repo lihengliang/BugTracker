@@ -47,4 +47,17 @@ userSchema.path('email').validate((email) => {
     return re.test(String(email).toLowerCase());
 }, "Invalid email");
 
-mongoose.model('User', userSchema);
+const User = module.exports = mongoose.model('User', userSchema);
+
+module.exports.getUserByEmail = (email, callback) => {
+    User.findOne({email: email}, callback);
+}
+
+module.exports.checkPassword = (password, hash, callback) => {
+    bcrypt.compare(password, hash, (error, isMatch) => {
+        if (error) {
+            throw error;
+        }
+        callback(null, isMatch);
+    });
+}

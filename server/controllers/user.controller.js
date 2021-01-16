@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const User = mongoose.model('User');
+const jwt = require('jsonwebtoken');
 
 module.exports.register = async (req, res, next) => {
     const { firstName, lastName, email, password1, password2 } = req.body;
@@ -12,8 +13,10 @@ module.exports.register = async (req, res, next) => {
     }
 
     // check if email is taken or not
-    await User.findOne({ email: email })
-    .then(user => {
+    await User.getUserByEmail(email, (error, user) => {
+        if (error) {
+            throw error;
+        }
         if (user) {
             errors.push('Email is already taken');
         }
@@ -55,3 +58,45 @@ module.exports.register = async (req, res, next) => {
         }
     });
 };
+
+
+module.exports.login = async (req, res, next) => {
+    const {email, password } = req.body;
+    let errors = [];
+
+    await User.getUserByEmail(email, (error, user) => {
+        if (error) {
+            throw error;
+        }
+        if (!user) {
+            errors.push('Incorrect email or password');
+            return res.status(401).send(errors);
+        }
+        User.checkPassword(password, user.password, (error, isMatch) => {
+            if (error) {
+                throw error;
+            }
+            if (!isMatch) {
+                errors.push('Incorrect email or password');
+                return res.status(401).send(errors);
+            }
+
+            const token = jwt.sign({data: user}, process.env.JWT_SECRET, {
+                expiresIn: 172800 // 2 days
+            });
+            
+            tokenRes = {
+                success: true,
+                token: token,
+                user: {
+                    id: user._id,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    email: user.email
+                }
+            }
+            console.log(tokenRes);
+            res.json(tokenRes);
+        });
+    });
+}
