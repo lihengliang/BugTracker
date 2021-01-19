@@ -81,11 +81,18 @@ module.exports.login = async (req, res, next) => {
                 return res.status(401).send(errors);
             }
 
-            const token = jwt.sign({data: user}, process.env.JWT_SECRET, {
+            const tokenPayload = {
+                date: user.date,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email
+            }
+
+            const token = jwt.sign({data: tokenPayload}, process.env.JWT_SECRET, {
                 expiresIn: process.env.JWT_EXP
             });
             
-            tokenRes = {
+            const tokenRes = {
                 success: true,
                 token: token,
                 user: {
