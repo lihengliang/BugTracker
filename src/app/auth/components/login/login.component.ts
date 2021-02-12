@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -15,6 +16,7 @@ export class LoginComponent implements OnInit {
   errorMsgs: Array<string>;
   constructor(
     private userService: UserService,
+    private authService: AuthService,
     private fb: FormBuilder,
     private router: Router ) {}
 
@@ -44,6 +46,7 @@ export class LoginComponent implements OnInit {
     this.userService.postLogin(this.loginForm.value).subscribe(
       res => {
         this.loginSuccess = true;
+        this.authService.setSession(res.token);
       },
       err => {
         if (err.status === 401) {
