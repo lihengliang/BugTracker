@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { User } from '../models/user.model';
+import { RegisterUser } from '../models/user.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -11,11 +11,11 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  postRegister(user: User): Observable<any> {
+  postRegister(user: RegisterUser): Observable<any> {
     return this.http.post(environment.apiUrl + '/register', user);
   }
 
-  postLogin(user: User): Observable<any> {
+  postLogin(user: RegisterUser): Observable<any> {
     return this.http.post(environment.apiUrl + '/login', user);
   }
 }
