@@ -82,7 +82,6 @@ module.exports.login = async (req, res, next) => {
             }
 
             const tokenPayload = {
-                date: user.date,
                 firstName: user.firstName,
                 lastName: user.lastName,
                 email: user.email
