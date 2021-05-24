@@ -11,10 +11,12 @@ import { LayoutModule } from './layout/layout.module';
 import { AuthModule } from './auth/auth.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
