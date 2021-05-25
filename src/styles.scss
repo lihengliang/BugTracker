@@ -5,4 +5,4 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .form-control.ng-touched.ng-invalid{ border: 1px solid #dc3545; }
 
 /* Importing Bootstrap SCSS file. */
-@import '~bootstrap/scss/bootstrap';
+@import "../node_modules/bootstrap/scss/bootstrap";

@@ -1,7 +1,7 @@
 <div class="container">
   <h1 class="display-3 text-center mt-3">Register your account</h1>
   <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-    <div class="form-row mt-2">
+    <div class="row mt-2">
       <div class="col-md-6">
         <label for="firstName">First Name</label>
         <input type="text" class="form-control" id="firstName" formControlName="firstName">
@@ -50,6 +50,6 @@
     <div class="alert alert-success" role="alert" *ngIf="userCreated">
       You can now login with your email and password.
   </div>
-    <button type="submit" class="btn btn-primary mb-2">Sign Up</button>
+    <button type="submit" class="btn btn-primary my-2">Sign Up</button>
   </form>
 </div>
