@@ -1,8 +1,10 @@
-
 <section>
   <app-header></app-header>
+  <app-sidenav></app-sidenav>
   <div class="container-fluid">
-    <router-outlet></router-outlet>
+    <main class="col-md-9 ms-sm-auto col-lg-10">
+      <router-outlet></router-outlet>
+      <app-footer></app-footer>
+    </main>
   </div>
 </section>
-<app-footer></app-footer>
